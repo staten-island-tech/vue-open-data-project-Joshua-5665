@@ -1,17 +1,13 @@
 <template>
   <div>
-
+    <h2>Hi</h2>
   </div>
 </template>
 
 <script setup>
-  import {onMounted, ref, watch} from 'vue'
-  import {useRoute} from 'vue-router'
+  import {ref, onMounted} from 'vue'
 
-  async function getData {
-    const response = await fetch(`https://data.cityofnewyork.us/resource/xi7c-iiu2.json`)
-    const data = await response.json()
-  }
+  const data = ref([])
 </script>
 
 <style scoped>
