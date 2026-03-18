@@ -1,6 +1,6 @@
 <template>
     <div>
-
+      <h2>{{ car.cd_name }}</h2>
     </div>
 </template>
 
