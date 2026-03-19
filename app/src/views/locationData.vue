@@ -10,7 +10,7 @@
   const route = useRoute()
   const car = ref({})
   async function getData(id) {
-    const response = await fetch(`https://data.cityofnewyork.us/resource/xi7c-iiu2.json${id}`)
+    const response = await fetch(`https://data.cityofnewyork.us/resource/xi7c-iiu2.json`)
     const data = await response.json()
     car.value = data
   }
