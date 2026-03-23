@@ -1,6 +1,6 @@
 <template>
     <div>
-      <locationCard v-for="mon in loc" :key="mon.borough" :loc="mon"/>
+      <locationCard v-for="kor in loc" :key="kor.cd_number" :loc="kor"/>
     </div>
 </template>
 
