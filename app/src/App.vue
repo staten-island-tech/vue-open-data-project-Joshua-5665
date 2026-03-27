@@ -1,11 +1,15 @@
 <template>
   <div>  
+
   </div>
   <RouterView/>
 </template>
 
-<script setup>
+<script>
 //New York City Population By Community Districts- API
+
+
+
 </script>
 
 <style scoped>

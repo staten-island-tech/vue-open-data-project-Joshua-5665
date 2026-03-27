@@ -1,6 +1,6 @@
 <template>
     <div>
-       <label>Select Year:
+       <label placeholder="Select Year">Select Year:
        <select class="years" v-model="selected">
         <option value="2024">{{ selected }}</option>
        </select>
@@ -15,7 +15,6 @@
   import {useRoute} from 'vue-router'
 
   const selected = ref("2024");
-
 
 
   const route = useRoute()
