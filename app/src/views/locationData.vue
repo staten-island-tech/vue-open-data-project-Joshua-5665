@@ -1,8 +1,10 @@
 <template>
     <div>
-       <label placeholder="Select Year">Select Year:
+      <h2>NYC Water Consumption</h2>
+       <label>Select Year:
        <select class="years" v-model="selected">
-        <option value="2024">{{ selected }}</option>
+        <option disabled value="Select a Year">Select a Year</option>
+        <option v-for="year in years">{{ year }}</option>
        </select>
     </label>
       <locationCard v-for="kor in loc" :key="kor.year" :loc="kor"/>
@@ -14,23 +16,33 @@
   import {onMounted, ref, watch} from 'vue'
   import {useRoute} from 'vue-router'
 
-  const selected = ref("2024");
+const selected = ref("Select a Year")
+
+const years = []
+
+let currentYear = 2025
+
+while(currentYear >= 1961) {
+  currentYear--
+  years.push(currentYear)
+}
+
 
 
   const route = useRoute()
   const loc = ref({})
-  async function getData(id) { 
+  async function getData() { 
     const response = await fetch(`https://data.cityofnewyork.us/resource/ia2d-e54m.json`)
     const data = await response.json()
     loc.value = data
   }
   onMounted(function() {
-    getData(route.params.id)
+    getData(route.params)
   })
   watch(
-    ()=> route.params.id,
-    function(id) {
-      getData(id)
+    ()=> route.params,
+    function() {
+      getData()
     },
   )
 

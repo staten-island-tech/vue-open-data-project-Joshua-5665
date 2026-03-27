@@ -7,12 +7,10 @@
         <h2>Year: {{ loc.year }}</h2>
         <h2>NYC Population: {{ loc.new_york_city_population }}</h2>
         <h2>NYC Consumption Gallons per Day Millions: {{ loc.nyc_consumption_million_gallons_per_day }}</h2>
-        
     </router-link>
 </template>
 
 <script setup>
-   
     import { computed } from 'vue'
     const props = defineProps({
         loc: {
@@ -29,7 +27,7 @@
 <style scoped>
 .card{
     height: 200px;
-    width: 30%;
+    width: 32%;
     display: flex;
     flex-direction: column;
     background-color: rgb(228, 255, 223);
