@@ -1,12 +1,10 @@
 <template>
-    <div class="years">
-        
+    <div v-for="time in times" class="years">
+        <p>{{ time.year }}</p>
     </div>
 
     <router-link :to="dataPath" class="card">
-        <h2>Year: {{ loc.year }}</h2>
-        <h2>NYC Population: {{ loc.new_york_city_population }}</h2>
-        <h2>NYC Consumption Gallons per Day Millions: {{ loc.nyc_consumption_million_gallons_per_day }}</h2>
+
     </router-link>
 </template>
 
@@ -21,6 +19,10 @@
     const dataPath = computed(()=> {
         return `/data/${props.loc.year}`
     })
+
+    const times = computed(() => {
+    return data.value.filter((time) => time.year == selected.value)
+})
 
 </script>
 

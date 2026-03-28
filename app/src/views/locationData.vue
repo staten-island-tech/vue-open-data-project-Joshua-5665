@@ -27,8 +27,6 @@ while(currentYear >= 1961) {
   years.push(currentYear)
 }
 
-
-
   const route = useRoute()
   const loc = ref({})
   async function getData() { 
