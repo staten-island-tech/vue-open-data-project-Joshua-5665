@@ -3,20 +3,24 @@
       <h2>NYC Water Consumption</h2>
        <label>Select Year:
        <select class="years" v-model="selected">
-        <option disabled value="Select a Year">Select a Year</option>
+        <option disabled value= ''>Select a Year</option>
         <option v-for="year in years">{{ year }}</option>
        </select>
     </label>
-      <locationCard v-for="kor in loc" :key="kor.year" :loc="kor"/>
+      <locationCard v-for="loc in times" :loc="loc"/>
     </div>
 </template>
 
 <script setup>
   import locationCard from '@/components/locationCard.vue'
-  import {onMounted, ref, watch} from 'vue'
+  import {onMounted, ref, watch, computed} from 'vue'
   import {useRoute} from 'vue-router'
 
-const selected = ref("Select a Year")
+  const times = computed(() => {
+    return loc.value.filter((loc) => loc.year === selected.value)
+    })
+
+const selected = ref('')
 
 const years = []
 
@@ -28,7 +32,7 @@ while(currentYear >= 1961) {
 }
 
   const route = useRoute()
-  const loc = ref({})
+  const loc = ref([])
   async function getData() { 
     const response = await fetch(`https://data.cityofnewyork.us/resource/ia2d-e54m.json`)
     const data = await response.json()
