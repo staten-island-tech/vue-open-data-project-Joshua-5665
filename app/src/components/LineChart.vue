@@ -1,64 +1,82 @@
-<template>
-  <div style="width: 600px; height: 400px;">
-    <Line :data="chartData" :options="chartOptions" />
-  </div>
-</template>
-
 <script setup>
-import { ref } from 'vue'
-import { Line } from 'vue-chartjs'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale
-} from 'chart.js'
+import { ref, onMounted, watch } from 'vue'
+import Chart from 'chart.js/auto'
 
-
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale
-)
-
-const chartData = ref({
-  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-  datasets: [
-    {
-      label: 'Monthly Sales',
-      data: [42, 75, 60, 90, 55, 110],
-      borderColor: '#4F81BD',
-      backgroundColor: 'rgba(79, 129, 189, 0.2)',
-      tension: 0.4,      // smooth curve
-      fill: true,
-      pointRadius: 5,
-      pointHoverRadius: 7
-    }
-  ]
+const props = defineProps({
+  data: Array,
+  type: String 
 })
 
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { position: 'top' },
-    title: {
-      display: true,
-      text: 'Sales Over Time'
-    }
-  },
-  scales: {
-    y: {
-      beginAtZero: true
-    }
+const canvasRef = ref(null)
+let chartInstance = null
+
+function renderChart() {
+  if (!props.data || props.data.length === 0) return
+
+  const labels = props.data.map(item => item.year)
+
+  let values = []
+  let label = ''
+
+  // 👇 Decide what to graph
+  if (props.type === 'water') {
+    values = props.data.map(item =>
+      Number(item.nyc_consumption_million_gallons_per_day)
+    )
+    label = 'Water Consumption (Million Gallons)'
+  } else {
+    values = props.data.map(item =>
+      Number(item.new_york_city_population)
+    )
+    label = 'Population'
   }
-})
+
+  if (chartInstance) {
+    chartInstance.destroy()
+  }
+
+  chartInstance = new Chart(canvasRef.value, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label,
+          data: values,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Year'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: label
+          }
+        }
+      }
+    }
+  })
+}
+
+onMounted(renderChart)
+watch(
+  () => [props.data, props.type],
+  () => {
+    renderChart()
+  },
+  { deep: true }
+)
 </script>
+
+<template>
+  <canvas ref="canvasRef"></canvas>
+</template>

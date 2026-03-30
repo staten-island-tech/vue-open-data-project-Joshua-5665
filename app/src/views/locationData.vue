@@ -8,11 +8,14 @@
        </select>
     </label>
       <locationCard v-for="loc in times" :loc="loc"/>
+      <LineChart :data="times.length ? times : loc" type="population" />
+      <LineChart :data="times.length ? times : loc" type="water" />
     </div>
 </template>
 
 <script setup>
   import locationCard from '@/components/locationCard.vue'
+  import LineChart from '@/components/LineChart.vue'
   import {onMounted, ref, watch, computed} from 'vue'
   import {useRoute} from 'vue-router'
 
@@ -47,8 +50,6 @@ while(currentYear >= 1961) {
       getData()
     },
   )
-
-  
 
 </script>
 
